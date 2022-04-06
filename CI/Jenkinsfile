@@ -1,0 +1,42 @@
+def SLAVE_LABEL = "SSv5_APPS_BUILD"
+
+pipeline {
+    environment {
+        AGENT_WORKSPACE = '/home/root'
+        PROJECTS_NAME = 'secured_mqtt:wifi_cli_micriumos:ethernet_bridge'
+        BOARD_ID = 'brd4321a_a06'   
+    }
+
+    agent {
+        node {
+            label "${SLAVE_LABEL}"
+        }
+    }
+
+    stages {
+        stage('Build') {
+
+            agent {
+                dockerfile {
+                    dir 'CI'
+                    args '-u 0:0'
+                    reuseNode true
+                }
+            }
+
+            steps {
+                sh 'chmod a+x ./CI/build_script.sh'
+                sh './CI/build_script.sh'
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/BIN_*.tar.gz',
+                                allowEmptyArchive: false,
+                                fingerprint: true,
+                                onlyIfSuccessful: true
+        }
+    }
+}
