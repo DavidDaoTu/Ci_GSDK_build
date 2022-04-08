@@ -73,7 +73,9 @@ do
 
         # Generating the projects
         echo "Generating a new out_$project/$BRD_PRJ_NAME"
-        slc generate --generator-timeout=180 ./$project/$project.slcp -np -d out_$project/$BRD_PRJ_NAME -o makefile prune --with $board_id
+        slc generate --generator-timeout=180 ./$project/$project.slcp -np \
+                    -d out_$project/$BRD_PRJ_NAME -o makefile prune \
+                    --with iostream_uart:vcom,$board_id
         if [ $? -ne 0 ];then
             echo "Failed to generate $BRD_PRJ_NAME! Exiting.."
             exit 1
