@@ -91,9 +91,8 @@ do
 
         fi    
         echo "===================> Finished <=================="
+        cd ../../
     done
-
-    cd ../../    
 done
 
 ##### PACKAGING THE BINARY OUTPUT FILES #####
