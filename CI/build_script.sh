@@ -81,10 +81,14 @@ do
         echo "===================> Begin <===================="
         make -j12 -f $project.Makefile clean all
         
-        # Copy the built binary file to output folder & add md5sum 
         if [ $? -eq 0 ];then
+            # Copy the built binary file to output folder & add md5sum 
             cp build/debug/*.hex ../../$OUT_FOLDER
             md5sum build/debug/*.hex >> ../../$OUT_FOLDER/md5sum_check
+        else
+            echo "Failed to build $BRD_PRJ_NAME! Exiting..."
+            exit 1
+
         fi    
         echo "===================> Finished <=================="
     done
