@@ -1,4 +1,4 @@
-def SLAVE_LABEL = "SSv5_APPS_BUILD"
+def SLAVE_LABEL = "tudao-pc-ubuntu"
 
 pipeline {
     environment {
