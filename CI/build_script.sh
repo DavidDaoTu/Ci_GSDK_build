@@ -66,14 +66,14 @@ do
     for board_id in ${board_ids[@]}
     do
         echo "board_id = $board_id"
-        
+
         BRD_PRJ_NAME=${board_id}_${project}
         mkdir ./out_$project/$BRD_PRJ_NAME
 
 
         # Generating the projects
         echo "Generating a new out_$project/$BRD_PRJ_NAME"
-        slc generate --generator-timeout=180 ./$project/$project.slcp -np -d out_$project/$BRD_PRJ_NAME -o makefile --with $board_id
+        slc generate --generator-timeout=180 ./$project/$project.slcp -np -d out_$project/$BRD_PRJ_NAME -o makefile prune --with $board_id
 
         # Building the projects
         echo "Going to the out_$project/$BRD_PRJ_NAME & building"
@@ -89,7 +89,7 @@ do
         echo "===================> Finished <=================="
     done
 
-    cd ../    
+    cd ../../    
 done
 
 ##### PACKAGING THE BINARY OUTPUT FILES #####
