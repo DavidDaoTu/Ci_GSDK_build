@@ -4,7 +4,7 @@ export PATH=$PATH:$AGENT_WORKSPACE/slc_cli
 
 echo "PROJECTS_NAME = $PROJECTS_NAME"
 echo "AGENT_WORKSPACE = $AGENT_WORKSPACE"
-echo "BOARD_ID = $BOARD_ID"
+echo "BOARD_ID = $BOARD_IDs"
 echo "GIT_BRANCH = $GIT_BRANCH"
 echo "GIT_COMMIT = $GIT_COMMIT"
 
@@ -42,9 +42,13 @@ slc configuration --sdk ./gecko_sdk/
 slc configuration --gcc-toolchain $AGENT_WORKSPACE/gnu_arm
 
 ##### SUBSTITUE SEPERATORS (:) OF PROJECT NAMES BY THE WHITE SPACES & CONVERT TO AN ARRAY #####
-SEPERATOR=":"
+SEPERATOR=","
 WHITESPACE=" "
 projects=(${PROJECTS_NAME//$SEPERATOR/$WHITESPACE})
+board_ids=(${BOARD_IDs//$SEPERATOR/$WHITESPACE})
+
+
+echo "board_ids = $board_ids"
 
 ##### LOOP THROUGH PROJECTS #####
 for project in ${projects[@]}
@@ -57,24 +61,34 @@ do
     fi
 
     # Create output project folder
-    mkdir out_$project
+    mkdir out_$project && mkdir ./$OUT_FOLDER/out_$project
 
-    # Generating the projects
-    echo "Generating a new out_$project"
-    slc generate --generator-timeout=180 ./$project/$project.slcp -np -d out_$project/ -o makefile --with $BOARD_ID
+    for board_id in ${board_ids[@]}
+    do
+        echo "board_id = $board_id"
+        
+        BRD_PRJ_NAME=${board_id}_${project}
+        mkdir ./out_$project/$BRD_PRJ_NAME
 
-    # Building the projects
-    echo "Going to the out_$project & building"
-    cd ./out_$project
-    echo "===================> Begin <===================="
-    make -j12 -f $project.Makefile clean all
-    
-    # Copy the built binary file to output folder & add md5sum 
-    if [ $? -eq 0 ];then
-        cp build/debug/*.hex ../$OUT_FOLDER
-        md5sum build/debug/*.hex >> ../$OUT_FOLDER/md5sum_check
-    fi    
-    echo "===================> Finished <=================="
+
+        # Generating the projects
+        echo "Generating a new out_$project/$BRD_PRJ_NAME"
+        slc generate --generator-timeout=180 ./$project/$project.slcp -np -d out_$project/$BRD_PRJ_NAME -o makefile --with $board_id
+
+        # Building the projects
+        echo "Going to the out_$project/$BRD_PRJ_NAME & building"
+        cd ./out_$project/$BRD_PRJ_NAME
+        echo "===================> Begin <===================="
+        make -j12 -f $project.Makefile clean all
+        
+        # Copy the built binary file to output folder & add md5sum 
+        if [ $? -eq 0 ];then
+            cp build/debug/*.hex ../../$OUT_FOLDER
+            md5sum build/debug/*.hex >> ../../$OUT_FOLDER/md5sum_check
+        fi    
+        echo "===================> Finished <=================="
+    done
+
     cd ../    
 done
 
