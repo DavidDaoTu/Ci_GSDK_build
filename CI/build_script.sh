@@ -61,7 +61,7 @@ do
 
     # Generating the projects
     echo "Generating a new out_$project"
-    slc generate ./$project/$project.slcp -np -d out_$project/ -o makefile --with $BOARD_ID
+    slc generate --generator-timeout=180 ./$project/$project.slcp -np -d out_$project/ -o makefile --with $BOARD_ID
 
     # Building the projects
     echo "Going to the out_$project & building"
