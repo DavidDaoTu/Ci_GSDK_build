@@ -75,7 +75,7 @@ do
         echo "Generating a new out_$project/$BRD_PRJ_NAME"
         slc generate --generator-timeout=180 ./$project/$project.slcp -np \
                     -d out_$project/$BRD_PRJ_NAME -o makefile \
-                    --with $board_id,iostream_usart:vcom
+                    --with $board_id,iostream_usart:vcom --force
         if [ $? -ne 0 ];then
             echo "Failed to generate $BRD_PRJ_NAME! Exiting.."
             exit 1
