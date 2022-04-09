@@ -67,6 +67,12 @@ do
     do
         echo "board_id = $board_id"
 
+        if [[ "$project" == 'ethernet_bridge' ]]  && [[ $board_id != 'brd4321a_a06' ]]
+        then
+            echo "$board_id is not supported by $project!"      
+            continue
+        fi
+
         BRD_PRJ_NAME=${board_id}_${project}
         mkdir ./out_$project/$BRD_PRJ_NAME
 
