@@ -9,7 +9,6 @@ component:
   - id: mbedtls_sha1
   - id: micriumos_bsp
   - id: lwip_app_lwiperf
-  - id: brd4321a_a06
   - id: lwip_netif_ethernet
   - id: iostream_retarget_stdio
   - id: simple_button
@@ -19,7 +18,6 @@ component:
   - id: micriumos_io_sd_driver_sdhc_arasan
   - id: micriumos_common_lib
   - id: mbedtls_rsa_2048
-  - id: WGM160PX22KGA2
   - id: mbedtls_cipher_cbc
   - id: iostream_recommended_stream
   - id: mbedtls_cipher_padding_pkcs7
@@ -52,6 +50,7 @@ component:
   - id: wfx_fmac_driver
   - id: sleeptimer
   - id: mbedtls_ecdsa_deterministic
+  - id: wfx_secure_link
 source:
   - path: main.c
   - path: app.c

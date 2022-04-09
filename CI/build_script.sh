@@ -73,9 +73,9 @@ do
 
         # Generating the projects
         echo "Generating a new out_$project/$BRD_PRJ_NAME"
-        slc generate --generator-timeout=180 ./$project/$project.slcp -np \
-                    -d out_$project/$BRD_PRJ_NAME -o makefile \
-                    --with $board_id --force
+        slc generate --generator-timeout=180 ./$project/$project.slcp \
+                    -np -d out_$project/$BRD_PRJ_NAME \
+                    -o makefile --with $board_id
         if [ $? -ne 0 ];then
             echo "Failed to generate $BRD_PRJ_NAME! Exiting.."
             exit 1
@@ -89,7 +89,7 @@ do
         
         if [ $? -eq 0 ];then
             # Copy the built binary file to output folder & add md5sum 
-            cp build/debug/*.hex ../../$OUT_FOLDER
+            cp build/debug/*.hex ../../$OUT_FOLDER/out_$project
             md5sum build/debug/*.hex >> ../../$OUT_FOLDER/md5sum_check
         else
             echo "Failed to build $BRD_PRJ_NAME! Exiting..."
