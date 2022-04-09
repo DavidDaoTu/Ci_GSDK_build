@@ -95,8 +95,9 @@ do
         
         if [ $? -eq 0 ];then
             # Copy the built binary file to output folder & add md5sum 
-            cp build/debug/*.hex ../../$OUT_FOLDER/out_$project
-            md5sum build/debug/*.hex >> ../../$OUT_FOLDER/md5sum_check
+            cp build/debug/*.hex ../../$OUT_FOLDER/out_$project/$BRD_PRJ_NAME.hex
+            #md5sum build/debug/*.hex >> ../../$OUT_FOLDER/md5sum_check
+            md5sum ../../$OUT_FOLDER/out_$project/$BRD_PRJ_NAME.hex >> ../../$OUT_FOLDER/md5sum_check
         else
             echo "Failed to build $BRD_PRJ_NAME! Exiting..."
             exit 1
